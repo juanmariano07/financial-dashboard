@@ -10,6 +10,7 @@ dist/
 *.tsbuildinfo
 
 docs/EXPLICACAO.md
+docs/*-full.png
 
 .DS_Store
 Thumbs.db

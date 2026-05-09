@@ -15,7 +15,7 @@ export function PositionTable({
   onSelect,
 }: PositionTableProps) {
   return (
-    <section className="panel panel--wide">
+    <section className="panel panel--wide position-panel">
       <div className="panel__header">
         <h2>Posições</h2>
         <span>{positions.length} ativos</span>

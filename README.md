@@ -4,6 +4,20 @@ Dashboard financeiro construído com React, TypeScript, Redux Toolkit e Recharts
 
 Os preços usam uma simulação local acelerada: a cada poucos segundos, os valores oscilam e a carteira é recalculada. Isso mantém a demonstração viva sem depender de cadastro, chave de API ou serviço externo.
 
+## Preview
+
+### Resumo da carteira
+
+![Visão geral do dashboard](docs/screenshot-dashboard.png)
+
+### Evolução de preço
+
+![Gráfico de evolução de preço](docs/screenshot-analysis.png)
+
+### Posições no mobile
+
+![Tabela de posições no mobile](docs/screenshot-positions-mobile.png)
+
 ## Objetivo
 
 Este projeto foi pensado para demonstrar fundamentos cobrados em vagas frontend com foco em mercado financeiro:

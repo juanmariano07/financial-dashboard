@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import type { AssetDTO, PortfolioDTO } from '@/dtos/api.dtos'
-import { mapAssetDTOToAsset, mapPortfolioDTOToPortfolio } from './portfolio.mappers'
-import { AssetType } from '@/types/domain.types'
+import type { AssetDTO, OrderDTO, PortfolioDTO } from '@/dtos/api.dtos'
+import {
+  mapAssetDTOToAsset,
+  mapOrderDTOToOrder,
+  mapPortfolioDTOToPortfolio,
+} from './portfolio.mappers'
+import { AssetType, OrderSide, OrderStatus } from '@/types/domain.types'
 
 const assetDto: AssetDTO = {
   id: 'asset-1',
@@ -54,5 +58,62 @@ describe('portfolio mappers', () => {
     expect(portfolio.totalInvested).toBe(390)
     expect(portfolio.totalPnl).toBe(50)
     expect(portfolio.positions[0].weight).toBe(77.27)
+  })
+
+  it('guards asset percentage change when previous close is zero', () => {
+    const asset = mapAssetDTOToAsset({
+      ...assetDto,
+      previous_close: 0,
+    })
+
+    expect(asset.change).toBe(34)
+    expect(asset.changePercent).toBe(0)
+  })
+
+  it('falls back to stock when asset type is unknown', () => {
+    const asset = mapAssetDTOToAsset({
+      ...assetDto,
+      asset_type: 'unknown_type',
+    })
+
+    expect(asset.type).toBe(AssetType.STOCK)
+  })
+
+  it('handles empty portfolios without division errors', () => {
+    const portfolio = mapPortfolioDTOToPortfolio({
+      id: 'portfolio-empty',
+      user_id: 'user-1',
+      name: 'Carteira vazia',
+      created_at: '2026-01-01T00:00:00.000Z',
+      updated_at: '2026-01-02T00:00:00.000Z',
+      positions: [],
+    })
+
+    expect(portfolio.positions).toEqual([])
+    expect(portfolio.totalValue).toBe(0)
+    expect(portfolio.totalInvested).toBe(0)
+    expect(portfolio.totalPnlPercent).toBe(0)
+  })
+
+  it('maps unknown order status to pending as a safe default', () => {
+    const dto: OrderDTO = {
+      id: 'order-1',
+      portfolio_id: 'portfolio-1',
+      asset_id: 'asset-1',
+      asset_ticker: 'ITUB4',
+      asset_name: 'Itau Unibanco PN',
+      side: 'sell',
+      qty: 3,
+      price: 34,
+      status: 'unexpected_status',
+      executed_at: null,
+      created_at: '2026-01-02T00:00:00.000Z',
+    }
+
+    const order = mapOrderDTOToOrder(dto)
+
+    expect(order.side).toBe(OrderSide.SELL)
+    expect(order.status).toBe(OrderStatus.PENDING)
+    expect(order.total).toBe(102)
   })
 })
