@@ -80,10 +80,10 @@ src/
 5. Os slices armazenam o estado no Redux.
 6. Os selectors entregam dados prontos para os componentes.
 
-## Pontos para explicar em entrevista
+## Decisões técnicas
 
-- DTO representa o formato externo da API; tipo de domínio representa o formato que a UI entende.
-- Mapper evita espalhar regra de conversão e cálculo dentro dos componentes.
-- Redux guarda dados compartilhados entre gráficos, tabela, ticket de ordem e indicadores.
-- Selectors memoizados reduzem recálculo e deixam a tela menos acoplada ao shape do store.
-- Mock API permite desenvolver e demonstrar o frontend antes do backend existir.
+- Separação entre DTOs da API e tipos de domínio usados pela UI.
+- Mappers para centralizar conversões e cálculos financeiros.
+- Redux Toolkit para estado compartilhado entre cards, gráficos, tabela e ordens.
+- Selectors memoizados para desacoplar componentes do formato interno do store.
+- Mock API para permitir demonstração sem backend e facilitar a troca por API real.
