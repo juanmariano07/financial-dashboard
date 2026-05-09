@@ -1,3 +1,5 @@
+[Demo ao vivo](https://financial-dashboard-six-steel.vercel.app/)
+
 # Financial Dashboard
 
 Dashboard financeiro construído com React, TypeScript, Redux Toolkit e Recharts. O projeto simula uma tela de home broker com carteira, indicadores, histórico de preços, alocação e envio de ordem.
